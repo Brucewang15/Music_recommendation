@@ -17,7 +17,7 @@ db_name = "music_recommendation"
 DATABASE_URL = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
 
 engine = create_engine(
-    DATABASE_URL, connect_args={"check_same_thread": False}
+    DATABASE_URL
 )
 
 sessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
