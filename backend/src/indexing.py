@@ -4,24 +4,26 @@ import numpy as np
 import pandas as pd
 
 class Indexing:
-    def __init__(self, features):
+    def __init__(self, features, df):
         self.logger = logging.getLogger(__name__)
 
         self.features = features
         self.index = None
+        self.df = df.reset_index(drop=True)
         self.nlist = 100
     
-    def index(self, df):
+    def create_index(self):
 
-        vectors = df[self.features].values.astype('float32')
+        vectors = np.ascontiguousarray(self.df[self.features].values.astype('float32'))
+        
         faiss.normalize_L2(vectors)
 
         dimension = vectors.shape[1]
 
         quantizer = faiss.IndexFlatIP(dimension)
-        self.index = faiss.IndexIVFFlat(quantizer, dimension, self.nlist, faiss.METRIC_INNER_PRODUCT)
+        self.index = faiss.IndexIVFFlat(quantizer, dimension, self.nlist)
 
-        self.index.train(vectors, niter=20)
+        self.index.train(vectors)
 
         self.index.add(vectors)
 
@@ -35,6 +37,6 @@ class Indexing:
 
         distances, indices = self.index.search(search, k)
         return distances, indices
-    
+
 
         
