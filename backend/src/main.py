@@ -26,6 +26,9 @@ def main():
 
     indexer.create_index()
     
+    index_file = Path(__file__).parent.parent / 'data' / 'faiss_index.ivf'
+    indexer.save_index(str(index_file))
+    
     logging.info("Indexing completed")
     
 

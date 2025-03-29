@@ -37,6 +37,10 @@ class Indexing:
 
         distances, indices = self.index.search(search, k)
         return distances, indices
+    
+    def save_index(self, path):
+        faiss.write_index(self.index, path)
+        self.logger.info(f"Index saved to {path}")
 
 
         
