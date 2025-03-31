@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from database import Base
+from db.database import Base
 from pgvector.sqlalchemy import Vector
 
 class Track(Base):
